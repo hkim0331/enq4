@@ -11,5 +11,5 @@ pom.xml
 .lein-plugins
 .lein-env
 .lein-repl-history
-!/data/create.sql
+!/resources/data/create.sql
 
