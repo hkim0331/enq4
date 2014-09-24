@@ -3,8 +3,9 @@
             [hiccup.form :refer [form-to label text-field file-upload
                                  submit-button]]
             [hiccup.element :refer [link-to]]
-            [hiccup.util :refer [escape-html]]
+            [hiccup.util :refer [escape-html url-encode]]
             [noir.response :refer [redirect]]
+            [noir.io :refer [upload-file resource-path]]
             [enq4.models :as models ]))
 
 (defn common [& body]
@@ -42,11 +43,13 @@
 ))
 
 ;; DRY, enquet-new と被る。Rails を参考にできないか?
+;; PUT なのに POST か?
 (defn enquet-by-id [id]
   (let [d (models/enquet-by-id id)]
     (common
      [:h1 "編集"]
-     (form-to [:put (str "/enquets/" id)]
+     (form-to {:enctype "multipart/form-data"}
+              [:post (str "/enquet/" id)]
 
               (label "name" "氏名")
               (text-field {:value (:name d)} "name") [:br]
@@ -72,20 +75,13 @@
               (submit-button {:class "button"} "update")
               ))))
 
-(defn make-enquet [& params]
-  ;; ここで insert
-  (common
-   [:h1 "make-enquet"]
-   [:p "params" (str params)]
-   )
-;;  (redirect "/enquets")
-)
 
 ;; DRY, enquet-by-id と被る。Rails を参考にできないか?
 (defn enquets-new []
     (common
      [:h1 "追加"]
-     (form-to [:post "/enquets"]
+     (form-to {:enctype "multipart/form-data"}
+              [:post "/enquets"]
 
               (label "name" "氏名")
               (text-field "name") [:br]
@@ -112,6 +108,24 @@
 
               )))
 
-(defn update-enquet [id & params]
+(defn make-enquet [& params]
+;;     (common
+;;    [:h1 "make-enquet"]
+;; ;;   [:p "params " (str params)]
+;;    ;; just a check.
+;;    )
+ (models/create-enquet
+    {:timestamp "2014-09-23"
+     :q4 "6" :q3 "5" :q2 "4" :q1 "3"
+     :subject "2"
+     :name "1"
+     :original "original" :upload "upload"})
+  (redirect "/enquets")
+)
 
+(defn update-enquet [id & params]
+  (common
+   [:h1 "update-enquet"]
+   [:p "id: " (str id)]
+   [:p "params: " (str params)])
   )

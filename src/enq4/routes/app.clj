@@ -21,6 +21,8 @@
   (POST "/enquets" [& params]
         (views/make-enquet params))
 
-  ;; (PUT "/enquet/:id" [id & params]
-  ;; (views/update-enquet id params)
-  )
+  ;; FIXME, was PUT.
+  (POST "/enquet/:id" [id & params]
+       (views/update-enquet id params))
+
+)
