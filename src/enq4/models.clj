@@ -16,6 +16,7 @@
 
 ;; timestamp?
 (defn create-enquet [params]
+  (println params)
   (insert enq4 (values params)))
 
 ;; timestamp?
