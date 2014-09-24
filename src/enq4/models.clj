@@ -14,15 +14,15 @@
 
 (defn enquet-by-id [id]
   (first (select enq4 (where {:id id}))))
-
-;; timestamp?
-;; must save uploaded document.
+;; timestamp を足し、upload を処理する。
 (defn create-enquet [params]
-;;  (println params)
-  (insert enq4 (values (assoc params :timestamp (now)))))
+  (let [p (assoc {:q4 "four" :q3 "three" :q2 "two" :q1 "one"
+                  :subject "subj"
+                  :name "akari"
+                  :original "original" :upload "upload"} :timestamp (now))]
+    (insert enq4 (values p)))
+  )
 
-;; timestamp?
-;; dissoc
 (defn update-enquet [id params]
   (update enq4
           (set-fields (assoc params :timestamp (now)))

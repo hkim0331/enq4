@@ -6,6 +6,7 @@
             [hiccup.util :refer [escape-html url-encode]]
             [noir.response :refer [redirect]]
             [noir.io :refer [upload-file resource-path]]
+            [enq4.time :refer [now]]
             [enq4.models :as models ]))
 
 (defn common [& body]
@@ -43,7 +44,7 @@
 ))
 
 ;; DRY, enquet-new と被る。Rails を参考にできないか?
-;; PUT なのに POST か?
+;; PUT なのに POST?
 (defn enquet-by-id [id]
   (let [d (models/enquet-by-id id)]
     (common
@@ -109,17 +110,6 @@
               )))
 
 (defn make-enquet [& params]
-;;     (common
-;;    [:h1 "make-enquet"]
-;; ;;   [:p "params " (str params)]
-;;    )
-;; just a check.
- ;; (models/create-enquet
- ;;    {:timestamp "2014-09-23"
- ;;     :q4 "6" :q3 "5" :q2 "4" :q1 "3"
- ;;     :subject "2"
- ;;     :name "1"
- ;;     :original "original" :upload "upload"})
   (models/create-enquet params)
   (redirect "/enquets")
 )
