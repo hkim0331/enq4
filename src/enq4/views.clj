@@ -112,14 +112,15 @@
 ;;     (common
 ;;    [:h1 "make-enquet"]
 ;; ;;   [:p "params " (str params)]
-;;    ;; just a check.
 ;;    )
- (models/create-enquet
-    {:timestamp "2014-09-23"
-     :q4 "6" :q3 "5" :q2 "4" :q1 "3"
-     :subject "2"
-     :name "1"
-     :original "original" :upload "upload"})
+;; just a check.
+ ;; (models/create-enquet
+ ;;    {:timestamp "2014-09-23"
+ ;;     :q4 "6" :q3 "5" :q2 "4" :q1 "3"
+ ;;     :subject "2"
+ ;;     :name "1"
+ ;;     :original "original" :upload "upload"})
+  (models/create-enquet params)
   (redirect "/enquets")
 )
 
