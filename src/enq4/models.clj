@@ -1,5 +1,6 @@
 (ns enq4.models
-  (:use korma.db korma.core))
+  (:use korma.db korma.core)
+  (:require [enq4.time :refer [now]]))
 
 (defdb enq4
   (sqlite3 {:db "resources/db/enq4.db"}))
@@ -15,10 +16,14 @@
   (first (select enq4 (where {:id id}))))
 
 ;; timestamp?
+;; must save uploaded document.
 (defn create-enquet [params]
-  (println params)
-  (insert enq4 (values params)))
+;;  (println params)
+  (insert enq4 (values (assoc params :timestamp (now)))))
 
 ;; timestamp?
+;; dissoc
 (defn update-enquet [id params]
-  (update enq4 (set-fields params) (where {:id id})))
+  (update enq4
+          (set-fields (assoc params :timestamp (now)))
+          (where {:id id})))
