@@ -1,0 +1,20 @@
+body {
+    color: #555;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+}
+
+h1 {
+    text-align: center;
+}
+
+input.button {
+    background: yellow;
+}
+
+footer {
+    margin-top: 5px;
+    border-top: 1pt solid black;
+    font-size: smaller;
+    color: gray;
+}
