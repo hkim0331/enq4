@@ -15,12 +15,11 @@
 (defn enquet-by-id [id]
   (first (select enq4 (where {:id id}))))
 
-;; FIXME
+;; FIXME, アプロードを処理し、URL を返す。
 (defn do-upload [{tmpfile :tempfile filename :filename}]
   filename
 )
 
-;; timestamp を足し、upload を処理する。
 ;; FIXME: (empty? original) のとき。
 (defn create-enquet [params]
   (let [u (do-upload (:upload params))
