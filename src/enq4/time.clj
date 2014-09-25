@@ -1,3 +1,4 @@
+;; required 'lein clean' before compile.
 (ns enq4.time
   (:refer-clojure :exclude [extend second])
   (:require
@@ -7,6 +8,7 @@
    [clj-time.local :as l]
    ))
 
+;; used in ape project
 ;; (defn utc-to-localtime [utc]
 ;;   (let* [s  (string/split utc #"[\s\-:]")
 ;;          dt (apply t/date-time (map #(Integer. %) s))

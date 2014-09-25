@@ -6,6 +6,7 @@
             [hiccup.util :refer [escape-html url-encode]]
             [noir.response :refer [redirect]]
             [noir.io :refer [upload-file resource-path]]
+            [enq4.time :refer [now]]
             [enq4.models :as models ]))
 
 (defn common [& body]
@@ -34,16 +35,18 @@
        [:td (:name e)]
        [:td (:subject e)]
        [:td (:q1 e)] [:td (:q2 e)] [:td (:q3 e)] [:td (:q4 e)]
-       [:td (:original e)]
+       [:td (link-to (:original e) (:original e))]
        [:td (:upload e)]
        [:td (:timestamp e)]
-       [:td (link-to (str "/enquet/" (:id e)) "編集") ]])
+       [:td (link-to (str "/enquet/" (:id e)) "編集") " | "
+        "削除"
+        ]])
     ]
    [:p (link-to "/enquets-new" "追加")]
 ))
 
 ;; DRY, enquet-new と被る。Rails を参考にできないか?
-;; PUT なのに POST か?
+;; PUT なのに POST?
 (defn enquet-by-id [id]
   (let [d (models/enquet-by-id id)]
     (common
@@ -108,23 +111,17 @@
 
               )))
 
-(defn make-enquet [& params]
-;;     (common
-;;    [:h1 "make-enquet"]
-;; ;;   [:p "params " (str params)]
-;;    )
-;; just a check.
- ;; (models/create-enquet
- ;;    {:timestamp "2014-09-23"
- ;;     :q4 "6" :q3 "5" :q2 "4" :q1 "3"
- ;;     :subject "2"
- ;;     :name "1"
- ;;     :original "original" :upload "upload"})
+(defn make-enquet [params]
+  ;; OK
+  ;; (common
+  ;;  [:h2 "check parameters"]
+  ;;  [:p params]
+  ;;  )
   (models/create-enquet params)
   (redirect "/enquets")
 )
 
-(defn update-enquet [id & params]
+(defn update-enquet [id params]
   (common
    [:h1 "update-enquet"]
    [:p "id: " (str id)]
