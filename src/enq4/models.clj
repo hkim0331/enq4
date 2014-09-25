@@ -20,7 +20,7 @@
   filename
 )
 
-;; FIXME: (empty? original) のとき。
+;; FIXME: (empty? original) のとき例外を出さなくちゃ。
 (defn create-enquet [params]
   (let [u (do-upload (:upload params))
         p (assoc (dissoc params :upload)
