@@ -14,14 +14,21 @@
 
 (defn enquet-by-id [id]
   (first (select enq4 (where {:id id}))))
+
+;; FIXME
+(defn do-upload [{tmpfile :tempfile filename :filename}]
+  filename
+)
+
 ;; timestamp を足し、upload を処理する。
+;; FIXME: (empty? original) のとき。
 (defn create-enquet [params]
-  (let [p (assoc {:q4 "four" :q3 "three" :q2 "two" :q1 "one"
-                  :subject "subj"
-                  :name "akari"
-                  :original "original" :upload "upload"} :timestamp (now))]
-    (insert enq4 (values p)))
-  )
+  (let [u (do-upload (:upload params))
+        p (assoc (dissoc params :upload)
+            :original u
+            :timestamp (now))]
+    (insert enq4 (values p))
+     ))
 
 (defn update-enquet [id params]
   (update enq4
