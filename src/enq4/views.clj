@@ -36,7 +36,9 @@
        [:td (:subject e)]
        [:td (:q1 e)] [:td (:q2 e)] [:td (:q3 e)] [:td (:q4 e)]
        [:td (link-to (:original e) (:original e))]
-       [:td (:upload e)]
+       (if (:upload e)
+         [:td (link-to (:upload e) (:upload e))]
+         [:td])
        [:td (:timestamp e)]
        [:td (link-to (str "/enquet/" (:id e)) "編集") " | "
         "削除"
@@ -112,18 +114,15 @@
               )))
 
 (defn make-enquet [params]
-  ;; OK
-  ;; (common
-  ;;  [:h2 "check parameters"]
-  ;;  [:p params]
-  ;;  )
   (models/create-enquet params)
   (redirect "/enquets")
 )
 
 (defn update-enquet [id params]
-  (common
-   [:h1 "update-enquet"]
-   [:p "id: " (str id)]
-   [:p "params: " (str params)])
-  )
+  ; (common
+  ;  [:h1 "update-enquet"]
+  ;  [:p "id: " (str id)]
+  ;  [:p "params: " (str params)])
+  (models/update-enquet id params)
+  (redirect "/enquets")
+)

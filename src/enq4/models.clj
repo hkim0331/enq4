@@ -1,5 +1,6 @@
 (ns enq4.models
   (:use korma.db korma.core)
+  (:require [clojure.java.io :refer [copy file]])
   (:require [enq4.time :refer [now]]))
 
 (defdb enq4
@@ -15,14 +16,16 @@
 (defn enquet-by-id [id]
   (first (select enq4 (where {:id id}))))
 
-;; FIXME, アプロードを処理し、URL を返す。
-(defn do-upload [{tmpfile :tempfile filename :filename}]
-  filename
+;; アプロードを処理し、URL を返す。
+;; 保存先は resources/public/{dir}
+(defn do-upload [{tempfile :tempfile filename :filename} dir]
+  (copy tempfile (file "resources" "public" dir filename))
+  (file dir filename)
 )
 
 ;; FIXME: (empty? original) のとき例外を出さなくちゃ。
 (defn create-enquet [params]
-  (let [u (do-upload (:upload params))
+  (let [u (do-upload (:upload params) "o")
         p (assoc (dissoc params :upload)
             :original u
             :timestamp (now))]
@@ -30,6 +33,8 @@
      ))
 
 (defn update-enquet [id params]
-  (update enq4
-          (set-fields (assoc params :timestamp (now)))
-          (where {:id id})))
+  (let [u (do-upload (:upload params) "u")
+        p (assoc (dissoc params :upload)
+            :upload u
+            :timestamp (now))]
+    (update enq4 (set-fields p) (where {:id id}))))
