@@ -41,7 +41,8 @@
          [:td])
        [:td (:timestamp e)]
        [:td (link-to (str "/enquet/" (:id e)) "編集") " | "
-            (link-to (str "/delete/" (:id e)) "削除")
+            (link-to {:onclick "return confirm('delete?')"} 
+              (str "/delete/" (:id e)) "削除") 
         ]])
     ]
    [:p (link-to "/enquets-new" "追加")]
@@ -113,25 +114,19 @@
 
               )))
 
+;; create するときは upload も含めてすべてのフィールドが揃っているはず。
 (defn make-enquet [params]
   (models/create-enquet params)
   (redirect "/enquets")
 )
 
+;; upload はデータがないときもある。
 (defn update-enquet [id params]
-  ; (common
-  ;  [:h1 "update-enquet"]
-  ;  [:p "id: " (str id)]
-  ;  [:p "params: " (str params)])
   (models/update-enquet id params)
   (redirect "/enquets")
 )
 
 (defn delete [id]
-  (if (= (javax.swing.JOptionPane/showConfirmDialog nil "delete?" "", 
-    javax.swing.JOptionPane/YES_NO_OPTION)
-          javax.swing.JOptionPane/YES_OPTION)
-    (models/delete-enquet id)
-    )
+  (models/delete-enquet id)
   (redirect "/enquets")
-  )
+)
