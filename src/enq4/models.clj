@@ -33,6 +33,8 @@
      ))
 
 (defn update-enquet [id params]
-  (update enq4
-          (set-fields (assoc params :timestamp (now)))
-          (where {:id id})))
+  (let [u (do-upload (:upload params) "u")
+        p (assoc (dissoc params :upload)
+            :upload u
+            :timestamp (now))]
+    (update enq4 (set-fields p) (where {:id id}))))
