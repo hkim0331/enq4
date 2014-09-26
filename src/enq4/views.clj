@@ -121,7 +121,7 @@
   (redirect "/enquets")
 )
 
-(defn update-enquet [id & params]
+(defn update-enquet [id params]
   (common
    [:h1 "update-enquet"]
    [:p "id: " (str id)]
