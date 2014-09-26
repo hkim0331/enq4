@@ -30,7 +30,7 @@
      [:th "更新済み"]
      [:th "更新日"]
      [:th "アクション"]]
-    (for [e (models/all-enquets)]
+    (for [e (models/avail-enquets)]
       [:tr
        [:td (:name e)]
        [:td (:subject e)]
@@ -41,7 +41,7 @@
          [:td])
        [:td (:timestamp e)]
        [:td (link-to (str "/enquet/" (:id e)) "編集") " | "
-        "削除"
+            (link-to (str "/delete/" (:id e)) "削除")
         ]])
     ]
    [:p (link-to "/enquets-new" "追加")]
@@ -126,3 +126,12 @@
   (models/update-enquet id params)
   (redirect "/enquets")
 )
+
+(defn delete [id]
+  (if (= (javax.swing.JOptionPane/showConfirmDialog nil "delete?" "", 
+    javax.swing.JOptionPane/YES_NO_OPTION)
+          javax.swing.JOptionPane/YES_OPTION)
+    (models/delete-enquet id)
+    )
+  (redirect "/enquets")
+  )

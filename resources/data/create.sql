@@ -9,10 +9,10 @@ create table enq4 (
        q2      varchar(255) not null,
        q3      varchar(255) not null,
        q4      varchar(255) not null,
-       original varchar(255) not null, -- url for downloading original
-       upload   varchar(255) default null, -- url for uploaded file
+       original varchar(255) not null unique, -- url for downloading original
+       upload   varchar(255) default null unique, -- url for uploaded file
        timestamp datetime default null,
-       in_use    bool default true
+       in_use    int default 1
 );
 
 insert into enq4 (name, subject, q1, q2, q3, q4, original, upload) values

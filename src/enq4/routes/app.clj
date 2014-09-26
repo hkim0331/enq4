@@ -25,4 +25,6 @@
   (POST "/enquet/:id" [id & params]
        (views/update-enquet id params))
 
+  (GET "/delete/:id" [id]
+      (views/delete id))
 )
