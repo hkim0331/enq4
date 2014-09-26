@@ -13,6 +13,9 @@
 (defn all-enquets []
   (select enq4))
 
+(defn avail-enquets []
+  (select enq4 (where {:in_use 1})))
+
 (defn enquet-by-id [id]
   (first (select enq4 (where {:id id}))))
 
@@ -38,3 +41,9 @@
             :upload u
             :timestamp (now))]
     (update enq4 (set-fields p) (where {:id id}))))
+
+(defn delete-enquet [id]
+  (update enq4 
+    (set-fields {:in_use 0 :timestamp (now)})
+   (where {:id id})))
+
