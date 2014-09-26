@@ -35,12 +35,18 @@
     (insert enq4 (values p))
      ))
 
+;; FIXME: コードがダサイ。
 (defn update-enquet [id params]
-  (let [u (do-upload (:upload params) "u")
-        p (assoc (dissoc params :upload)
-            :upload u
-            :timestamp (now))]
-    (update enq4 (set-fields p) (where {:id id}))))
+  (if (empty? (:filename (:upload params)))
+    (let [p (assoc (dissoc params :upload)
+             :timestamp (now))]
+      (update enq4 (set-fields p) (where {:id id})))
+    (let [p (assoc (dissoc params :upload)
+             :upload (do-upload (:upload params) "u")
+             :timestamp (now))]
+      (update enq4 (set-fields p) (where {:id id})))
+    )
+  )
 
 (defn delete-enquet [id]
   (update enq4 
