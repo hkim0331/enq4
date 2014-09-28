@@ -41,8 +41,8 @@
          [:td])
        [:td (:timestamp e)]
        [:td (link-to (str "/enquet/" (:id e)) "編集") " | "
-            (link-to {:onclick "return confirm('delete?')"} 
-              (str "/delete/" (:id e)) "削除") 
+            (link-to {:onclick "return confirm('delete?')"}
+              (str "/delete/" (:id e)) "削除")
         ]])
     ]
    [:p (link-to "/enquets-new" "追加")]
