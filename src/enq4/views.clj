@@ -30,16 +30,19 @@
      [:th "更新済み"]
      [:th "更新日"]
      [:th "アクション"]]
-    (for [e (models/all-enquets)]
+    (for [e (models/avail-enquets)]
       [:tr
        [:td (:name e)]
        [:td (:subject e)]
        [:td (:q1 e)] [:td (:q2 e)] [:td (:q3 e)] [:td (:q4 e)]
        [:td (link-to (:original e) (:original e))]
-       [:td (:upload e)]
+       (if (:upload e)
+         [:td (link-to (:upload e) (:upload e))]
+         [:td])
        [:td (:timestamp e)]
        [:td (link-to (str "/enquet/" (:id e)) "編集") " | "
-        "削除"
+            (link-to {:onclick "return confirm('delete?')"}
+              (str "/delete/" (:id e)) "削除")
         ]])
     ]
    [:p (link-to "/enquets-new" "追加")]
@@ -111,19 +114,19 @@
 
               )))
 
+;; create するときは upload も含めてすべてのフィールドが揃っているはず。
 (defn make-enquet [params]
-  ;; OK
-  ;; (common
-  ;;  [:h2 "check parameters"]
-  ;;  [:p params]
-  ;;  )
   (models/create-enquet params)
   (redirect "/enquets")
 )
 
+;; upload はデータがないときもある。
 (defn update-enquet [id params]
-  (common
-   [:h1 "update-enquet"]
-   [:p "id: " (str id)]
-   [:p "params: " (str params)])
-  )
+  (models/update-enquet id params)
+  (redirect "/enquets")
+)
+
+(defn delete [id]
+  (models/delete-enquet id)
+  (redirect "/enquets")
+)
