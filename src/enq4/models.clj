@@ -45,11 +45,10 @@
              :upload (do-upload (:upload params) "u")
              :timestamp (now))]
       (update enq4 (set-fields p) (where {:id id})))
-    )
-  )
+    ))
 
 (defn delete-enquet [id]
-  (update enq4 
+  (update enq4
     (set-fields {:in_use 0 :timestamp (now)})
    (where {:id id})))
 
