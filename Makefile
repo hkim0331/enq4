@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 TOMCAT  = /var/lib/tomcat7
 APP     = enq4
-VERSION = 0.4
+VERSION = 0.4.1
 
 # immutant:8080
 immutant:
@@ -25,7 +25,7 @@ war:
 	touch war
 
 tomcat: war
-	@echo 'please "sudo su && sudo su tomcat && make tomcat"'
+	@echo 'please "sudo su && sudo su tomcat7 && make tomcat"'
 	cp target/${APP}-${VERSION}-standalone.war ${TOMCAT}/webapps/${APP}.war
 	rm -r ${TOMCAT}/webapps/${APP}
 	service tomcat7 restart
@@ -36,3 +36,5 @@ db:
 	chown -R tomcat7:tomcat7 ${TOMCAT}/resources
 
 
+clean:
+	${RM} target/*.jar target/*.war
