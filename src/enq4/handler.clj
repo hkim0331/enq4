@@ -26,9 +26,10 @@
     (-> (routes app-routes)
       (handler/site)
       (wrap-resource "public")          ;
+      (wrap-base-url)
       (wrap-keyword-params)
       (wrap-params)
-      (wrap-base-url)))
+      ))
 
 ;; (defn -main []
 ;;   (let [port (Integer/parseInt (get (System/getenv) "PORT" "8080"))]
