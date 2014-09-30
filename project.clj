@@ -1,4 +1,4 @@
-(defproject enq4 "0.5"
+(defproject enq4 "0.5.1"
   :description "respond to senba's request"
   :url "http://example.com/FIXME"
   :dependencies [[org.clojure/clojure "1.6.0"]
