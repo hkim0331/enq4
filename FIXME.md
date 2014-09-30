@@ -1,5 +1,12 @@
 ## 2014-09-30
 
+### context-path
+
+(redirect )が context-path を意識しない。
+
+
+### オリジナルデータに機種依存文字
+
 (FIXED)
 
 ````sh
