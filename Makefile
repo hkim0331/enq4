@@ -10,11 +10,13 @@ all:
 	@echo "'make init'"
 
 init:
-	(cd resources/data && make init)
+	(cd resources/data && make clean all init)
 
 # jetty, 3000/tcp
 jetty:
 	lein ring uberjar
+
+jetty-run:
 	java -jar target/${APP}-${VERSION}-standalone.jar
 
 # immutant:8080
@@ -25,8 +27,8 @@ immutant:
 undeploy:
 	lein immutant undeploy ${APP}
 
-run:
-	@echo exec lein immutant run -b 0.0.0.0
+immutant-run:
+	lein immutant run -b 0.0.0.0
 
 # tomcat, 8080/tcp
 war:
