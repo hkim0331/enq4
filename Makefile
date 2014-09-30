@@ -3,6 +3,15 @@ TOMCAT  = /var/lib/tomcat7
 APP = enq4
 VERSION = 0.5
 
+all:
+	@echo "'make jetty' to run server at 3000/tcp."
+	@echo "'make immutant && make run' is for immutant. 8080/tcp."
+	@echo "'make war && makt tomcat deloy onto tomcat7."
+	@echo "'make init'"
+
+init:
+	(cd resources/data && make init)
+
 # jetty, 3000/tcp
 jetty:
 	lein ring uberjar
