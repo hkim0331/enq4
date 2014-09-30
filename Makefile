@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 TOMCAT  = /var/lib/tomcat7
 APP = enq4
-VERSION = 0.5.1
+VERSION = 0.5.2
 
 all:
 	@echo "'make jetty' to run server at 3000/tcp."
@@ -14,6 +14,7 @@ init:
 
 # jetty, 3000/tcp
 jetty:
+	make clean
 	lein ring uberjar
 
 jetty-run:
@@ -32,6 +33,7 @@ immutant-run:
 
 # tomcat, 8080/tcp
 war:
+	make clean
 	lein ring uberwar
 	touch war
 
@@ -46,5 +48,6 @@ db:
 	mkdir -p ${TOMCAT}/resources/db
 	cp resources/db/${APP}.db ${TOMCAT}/resources/db/
 	chown -R tomcat7:tomcat7 ${TOMCAT}/resources
+
 clean:
 	${RM} target/*.jar target/*.war
