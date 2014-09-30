@@ -19,5 +19,5 @@ To start a web server for the application, run:
 
 ## License
 
-Copyright © 2014 hiroshi.kimura.0331@gmail.com
+Copyright © 2014, hiroshi.kimura.0331@gmail.com
 
