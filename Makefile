@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 TOMCAT  = /var/lib/tomcat7
 APP = enq4
-VERSION = 0.4.1
+VERSION = 0.5
 
 # jetty, 3000/tcp
 jetty:
