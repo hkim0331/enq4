@@ -8,7 +8,7 @@ enq4:
 	cat create.sql | sqlite3  ${DB}
 
 init:
-	cp h26_syllabus.doc ../public/o/
+#	cp h26_syllabus.doc ../public/o/
 	ruby init.rb ${DB} < init.csv
 
 clean:
