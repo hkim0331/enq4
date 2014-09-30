@@ -17,19 +17,11 @@
 (defn destroy []
   (println "enq4 is shutting down"))
 
-;; (defroutes app-routes
-;;   (route/resources "/")
-;;   (route/not-found "Not Found"))
-
 (def app
-    ;; (-> (routes home-routes app-routes)
     (-> (routes app-routes)
       (handler/site)
       (wrap-resource "public")          ;
       (wrap-keyword-params)
       (wrap-params)
-      (wrap-base-url)))
-
-;; (defn -main []
-;;   (let [port (Integer/parseInt (get (System/getenv) "PORT" "8080"))]
-;;     (run-jetty app {:port port})))
+      (wrap-base-url)
+      ))

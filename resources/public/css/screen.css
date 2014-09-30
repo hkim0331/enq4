@@ -18,3 +18,33 @@ footer {
     font-size: smaller;
     color: gray;
 }
+
+tr.even {
+    background: #d9edf7;
+}
+
+tr.odd {
+
+}
+
+th {
+    color: navy;
+    background: skyblue;
+    text-align: center;
+}
+
+th.name {
+    width: 200px;
+}
+
+th.subject {
+    width: 300px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
