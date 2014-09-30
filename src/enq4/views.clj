@@ -16,22 +16,22 @@
      [:title "Welcome to enq4"]]
     [:body
      [:div.container body]
-     [:footer "programmed by hkimura."]]))
+     [:footer "programmed by hkimura with clojure."]]))
 
 (defn enquets []
   (common
    [:h1 "アンケート"]
    [:table
     [:tr
-     [:th "名前"]
-     [:th "科目名"]
+     [:th {:class "name"} "名前"]
+     [:th {:class "subject"} "科目名"]
      [:th "q1"] [:th "q2"] [:th "q3"] [:th "q4"]
      [:th "旧シラバス"]
      [:th "更新済み"]
      [:th "更新日"]
      [:th "アクション"]]
-    (for [e (models/avail-enquets)]
-      [:tr
+    (for [[n e] (map-indexed vector (models/avail-enquets))]
+      [:tr {:class (if (even? n) :even :odd)}
        [:td (:name e)]
        [:td (:subject e)]
        [:td (:q1 e)] [:td (:q2 e)] [:td (:q3 e)] [:td (:q4 e)]
