@@ -9,7 +9,8 @@
    [compojure.handler :as handler]
    [compojure.route :as route]
    [enq4.routes.app :refer [app-routes]]
-   [enq4.routes.home :refer [home-routes]]))
+;;   [enq4.routes.home :refer [home-routes]]
+   ))
 
 (defn init []
   (println "enq4 is starting"))
