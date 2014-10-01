@@ -55,7 +55,7 @@
   (let [d (models/enquet-by-id id)]
     (common
      [:h1 "編集"]
-     (form-to {:enctype "multipart/form-data" :character-encode "utf-8"}
+     (form-to {:enctype "multipart/form-data" :character-encoding "utf-8"}
               [:post (str "/enquet/" id)]
 
               (label "name" "氏名")
