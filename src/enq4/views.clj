@@ -13,6 +13,7 @@
   (html5
     [:head
      (include-css "/css/screen.css")
+     [:meta {:charset "utf-8"}]
      [:title "Welcome to enq4"]]
     [:body
      [:div.container body]
@@ -54,7 +55,7 @@
   (let [d (models/enquet-by-id id)]
     (common
      [:h1 "編集"]
-     (form-to {:enctype "multipart/form-data"}
+     (form-to {:enctype "multipart/form-data" :character-encode "utf-8"}
               [:post (str "/enquet/" id)]
 
               (label "name" "氏名")
@@ -86,7 +87,7 @@
 (defn enquets-new []
     (common
      [:h1 "追加"]
-     (form-to {:enctype "multipart/form-data"}
+     (form-to {:enctype "multipart/form-data" :character-encoding "utf-8"}
               [:post "/enquets"]
 
               (label "name" "氏名")

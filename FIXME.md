@@ -1,5 +1,9 @@
 ## 2014-09-30
 
+### 文字化け
+
+rabbit に tomcat7 入れて動かしてみると、POST の際に文字化けが発生してしまう。
+
 ### context-path
 
 (redirect )が context-path を意識しない。
