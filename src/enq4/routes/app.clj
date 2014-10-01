@@ -1,5 +1,7 @@
 (ns enq4.routes.app
   (:require [compojure.core :refer :all]
+            [noir.session :as session]
+            [noir.response :refer [redirect]]
             [enq4.views :as views]))
 
 (defn hello []
@@ -19,12 +21,19 @@
        (views/enquets-new))
 
   (POST "/enquets" [& params]
-        (views/make-enquet params))
+    (if (session/get :user)
+      (views/make-enquet params)
+      (redirect "/login")))
 
   ;; FIXME, was PUT.
   (POST "/enquet/:id" [id & params]
-       (views/update-enquet id params))
+;;    (println (str "session:" (session/get :user)))
+    (if (session/get :user)
+     (views/update-enquet id params)
+     (redirect "/login")))
 
   (GET "/delete/:id" [id]
-      (views/delete id))
+    (if (session/get :user)
+      (views/delete id)
+      (redirect "/login")))
 )
