@@ -32,6 +32,7 @@
         p (assoc (dissoc params :upload)
             :original u
             :timestamp (now))]
+    (println p);;debug
     (insert enq4 (values p))
      ))
 

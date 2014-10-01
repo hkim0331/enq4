@@ -1,11 +1,23 @@
 #-*- coding: utf-8 -*-
 TOMCAT  = /var/lib/tomcat7
 APP = enq4
-VERSION = 0.5
+VERSION = 0.5.2
+
+all:
+	@echo "'make jetty' to run server at 3000/tcp."
+	@echo "'make immutant && make run' is for immutant. 8080/tcp."
+	@echo "'make war && makt tomcat deloy onto tomcat7."
+	@echo "'make init'"
+
+init:
+	(cd resources/data && make clean all init)
 
 # jetty, 3000/tcp
 jetty:
+	make clean
 	lein ring uberjar
+
+jetty-run:
 	java -jar target/${APP}-${VERSION}-standalone.jar
 
 # immutant:8080
@@ -16,11 +28,12 @@ immutant:
 undeploy:
 	lein immutant undeploy ${APP}
 
-run:
-	@echo exec lein immutant run -b 0.0.0.0
+immutant-run:
+	lein immutant run -b 0.0.0.0
 
 # tomcat, 8080/tcp
 war:
+	make clean
 	lein ring uberwar
 	touch war
 
@@ -35,5 +48,6 @@ db:
 	mkdir -p ${TOMCAT}/resources/db
 	cp resources/db/${APP}.db ${TOMCAT}/resources/db/
 	chown -R tomcat7:tomcat7 ${TOMCAT}/resources
+
 clean:
 	${RM} target/*.jar target/*.war
