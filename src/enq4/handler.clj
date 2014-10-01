@@ -21,7 +21,7 @@
     (-> (routes app-routes)
       (handler/site)
       (wrap-resource "public")          ;
-      (wrap-keyword-params)
-      (wrap-params)
-      (wrap-base-url)
+;      (wrap-keyword-params)
+;      (wrap-params)
+;      (wrap-base-url)
       ))

@@ -118,7 +118,10 @@
 ;; create するときは upload も含めてすべてのフィールドが揃っているはず。
 (defn make-enquet [params]
   (models/create-enquet params)
-  (redirect "/enquets")
+;  (redirect "/enquets")
+  (common
+   [:h1 "params test"]
+   [:p (str "params: " params)])
 )
 
 ;; upload はデータがないときもある。
