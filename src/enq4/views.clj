@@ -1,27 +1,46 @@
 (ns enq4.views
   (:require [hiccup.page :refer [html5 include-css]]
-            [hiccup.form :refer [form-to label text-field file-upload
+            [hiccup.form :refer 
+              [form-to label text-field file-upload password-field
                                  submit-button]]
             [hiccup.element :refer [link-to]]
             [hiccup.util :refer [escape-html url-encode]]
             [noir.response :refer [redirect]]
             [noir.io :refer [upload-file resource-path]]
+            [noir.session :as session]
             [enq4.time :refer [now]]
             [enq4.models :as models ]))
 
 (defn common [& body]
   (html5
     [:head
+     (include-css "/css/bootstrap.min.css")
      (include-css "/css/screen.css")
      [:meta {:charset "utf-8"}]
      [:title "Welcome to enq4"]]
     [:body
+     [:div {:class "navbar navbar-inverse"}
+     [:div {:class "navbar-inner"}
+      (link-to {:class :brand} "/" "ENQ4 | ")
+      (if (session/get :user)
+        (link-to "/logout" "LOGOUT")
+        (link-to "/login" "PLEASE LOGIN"))
+      [:form {:class "navbar-form pull-right"}
+       [:input {:type :text :class :search-query :placeholder :Search}]]]]
      [:div.container body]
      [:footer "programmed by hkimura with clojure."]]))
 
 (defn enquets []
   (common
    [:h1 "アンケート"]
+   (if (session/get :user)
+    [:ol 
+      [:li "旧シラバスの欄からシラバスをダウンロードします。"]
+      [:li "担当の授業の新シラバスを作成し、ローカルに保存して下さい。"]
+      [:li "編集ボタンを押し、q1, q2, q3, q4を適切に書き換え、
+        先ほど保存した新シラバスを選んだ後に update ボタンを押します。"]
+      [:li "作業が完了したら左上の LOGOUT からログアウトして下さい。"]]
+    [:p "左上の PLEASE LOGIN をクリックし、ログイン後に作業をお願いします。"])
    [:table
     [:tr
      [:th {:class "name"} "名前"]
@@ -41,12 +60,17 @@
          [:td (link-to (:upload e) (:upload e))]
          [:td])
        [:td (:timestamp e)]
-       [:td (link-to (str "/enquet/" (:id e)) "編集") " | "
+       (if (session/get :user)
+         [:td (link-to (str "/enquet/" (:id e)) "編集") " | "
             (link-to {:onclick "return confirm('delete?')"}
               (str "/delete/" (:id e)) "削除")
-        ]])
+          ]
+         [:td])
+        ])
     ]
-   [:p (link-to "/enquets-new" "追加")]
+    (if (session/get :user)
+      [:p (link-to "/enquets-new" "追加")]
+    )
 ))
 
 ;; DRY, enquet-new と被る。Rails を参考にできないか?
@@ -115,6 +139,7 @@
 
               )))
 
+;; 以下の関数は本来 models にあるべきか?
 ;; create するときは upload も含めてすべてのフィールドが揃っているはず。
 (defn make-enquet [params]
   (models/create-enquet params)
@@ -134,3 +159,27 @@
   (models/delete-enquet id)
   (redirect "/enquets")
 )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; login
+(defn- control [field name text]
+  (list (label name text)
+    (field name)
+    [:br]))
+
+; (defn registration-page []
+;   (common
+;    "please register"
+;    (form-to [:post "/register"]
+;       (control text-field :id "name")
+;       (control password-field :pass "Password")
+;       (control password-field :pass1 "Retype Password")
+;       (submit-button "register"))))
+
+(defn login-page []
+  (common
+   "please login"
+   (form-to [:post "/login"]
+      (control text-field :name "name")
+      (control password-field :pass "Password")
+      (submit-button "login"))))
+
