@@ -79,7 +79,7 @@
   (let [d (models/enquet-by-id id)]
     (common
      [:h1 "編集"]
-     (form-to {:enctype "multipart/form-data" :character-encode "utf-8"}
+     (form-to {:enctype "multipart/form-data" :character-encoding "utf-8"}
               [:post (str "/enquet/" id)]
 
               (label "name" "氏名")
@@ -143,7 +143,7 @@
 ;; create するときは upload も含めてすべてのフィールドが揃っているはず。
 (defn make-enquet [params]
   (models/create-enquet params)
-;  (redirect "/enquets")
+;  (redirect "/enq4/enquets")
   (common
    [:h1 "params test"]
    [:p (str "params: " params)])
@@ -152,12 +152,12 @@
 ;; upload はデータがないときもある。
 (defn update-enquet [id params]
   (models/update-enquet id params)
-  (redirect "/enquets")
+  (redirect "/enq4/enquets")
 )
 
 (defn delete [id]
   (models/delete-enquet id)
-  (redirect "/enquets")
+  (redirect "/enq4/enquets")
 )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; login

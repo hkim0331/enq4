@@ -1,4 +1,5 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env ruby -Ku
+#-*- coding: utf-8 -*-
 require 'sequel'
 
 MY_DEBUG = false
