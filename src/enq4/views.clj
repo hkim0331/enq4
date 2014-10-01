@@ -13,6 +13,7 @@
   (html5
     [:head
      (include-css "/css/screen.css")
+     [:meta {:charset "utf-8"}]
      [:title "Welcome to enq4"]]
     [:body
      [:div.container body]
