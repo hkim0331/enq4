@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 TOMCAT  = /var/lib/tomcat7
 APP = enq4
-VERSION = 0.6
+VERSION = 0.6.1
 
 all:
 	@echo "'make jetty' to run server at 3000/tcp."
