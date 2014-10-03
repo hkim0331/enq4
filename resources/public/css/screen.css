@@ -5,7 +5,11 @@ body {
 }
 
 h1 {
+/*
     text-align: center;
+    margin-left:2em;
+*/
+    border-bottom:1pt solid gray;
 }
 
 input.button {
@@ -27,23 +31,23 @@ tr.odd {
 
 }
 
-th {
+table.tbl th {
     color: navy;
     background: skyblue;
     text-align: center;
     border: 1px solid white;
 }
 
-td {
+table.tbl td {
     border: 1px dotted gray;
 }
 
 th.name {
-    width: 200px;
+    width: 160px;
 }
 
 th.subject {
-    width: 300px;
+    width: 200px;
 }
 
 a {
@@ -54,3 +58,18 @@ a:hover {
     text-decoration: underline;
 }
 
+table.login tr {
+    margin-bottom: 5px;
+}
+
+table.login th {
+
+}
+
+table.login td {
+
+}
+
+table.edit input {
+    width:300px;
+}

@@ -32,7 +32,7 @@
 
 (defn enquets []
   (common
-   [:h1 "アンケート"]
+   [:h1 "H27大学院時間割等修正・確認"]
    (if (session/get :user)
     [:ol 
       [:li "旧シラバスの欄からシラバスをダウンロードします。"]
@@ -41,13 +41,14 @@
         先ほど保存した新シラバスを選んだ後に update ボタンを押します。"]
       [:li "作業が完了したら左上の LOGOUT からログアウトして下さい。"]]
     [:p "左上の PLEASE LOGIN をクリックし、ログイン後に作業をお願いします。"])
-   [:table
+   [:table {:class "tbl"}
     [:tr
      [:th {:class "name"} "名前"]
      [:th {:class "subject"} "科目名"]
      [:th "q1"] [:th "q2"] [:th "q3"] [:th "q4"]
-     [:th "旧シラバス"]
-     [:th "更新済み"]
+     [:th "旧シラバス<br>(全員分)"]
+     [:th "修正シラバス<br>(当該科目のみ)"]
+     [:th "備考"]
      [:th "更新日"]
      [:th "アクション"]]
     (for [[n e] (map-indexed vector (models/avail-enquets))]
@@ -59,11 +60,13 @@
        (if (:upload e)
          [:td (link-to (:upload e) (:upload e))]
          [:td])
+       [:td (:note e)]
        [:td (:timestamp e)]
        (if (session/get :user)
-         [:td (link-to (str "/enquet/" (:id e)) "編集") " | "
-            (link-to {:onclick "return confirm('delete?')"}
-              (str "/delete/" (:id e)) "削除")
+         [:td (link-to (str "/enquet/" (:id e)) "編集") 
+         ; " | "
+         ;    (link-to {:onclick "return confirm('delete?')"}
+         ;      (str "/delete/" (:id e)) "削除")
           ]
          [:td])
         ])
@@ -81,30 +84,26 @@
      [:h1 "編集"]
      (form-to {:enctype "multipart/form-data" :character-encoding "utf-8"}
               [:post (str "/enquet/" id)]
+        [:table {:class "edit"}      
+          [:tr [:th "氏名"]
+               [:td (text-field {:value (:name d)} "name")]]
+          [:tr [:th "科目名"]
+              [:td (text-field {:value (:subject d)} "subject")]]
+          [:tr [:th "Q1"]
+              [:td (text-field {:value (:q1 d)} "q1")]]
+          [:tr [:th "Q2"]
+              [:td (text-field {:value (:q2 d)} "q2")]]
+          [:tr [:th "Q3"]
+              [:td (text-field {:value (:q3 d)} "q3")]]
+          [:tr [:th "Q4"]
+              [:td (text-field {:value (:q4 d)} "q4")]]
+          [:tr [:th "シラバス"]
+              [:td (file-upload "upload")]]
+          [:tr [:th "備考"]
+              [:td (text-field {:value (:note d)} "note")]]
+          ]
+          [:p (submit-button {:class "button"} "update")]))))
 
-              (label "name" "氏名")
-              (text-field {:value (:name d)} "name") [:br]
-
-              (label "subject" "科目名")
-              (text-field {:value (:subject d)} "subject") [:br]
-
-              (label "q1" "Q1")
-              (text-field {:value (:q1 d)} "q1") [:br]
-
-              (label "q2" "Q2")
-              (text-field {:value (:q2 d)} "q2") [:br]
-
-              (label "q3" "Q3")
-              (text-field {:value (:q3 d)} "q3") [:br]
-
-              (label "q4" "Q4")
-              (text-field {:value (:q4 d)} "q4") [:br]
-
-              (label "upload" "シラバス更新")
-              (file-upload "upload") [:br]
-
-              (submit-button {:class "button"} "update")
-              ))))
 
 
 ;; DRY, enquet-by-id と被る。Rails を参考にできないか?
@@ -135,6 +134,9 @@
               (label "upload" "更新したシラバス")
               (file-upload "upload") [:br]
 
+              (label "note" "備考")
+              (text-field "note") [:br]
+
               (submit-button {:class "button"} "create")
 
               )))
@@ -143,43 +145,35 @@
 ;; create するときは upload も含めてすべてのフィールドが揃っているはず。
 (defn make-enquet [params]
   (models/create-enquet params)
-;  (redirect "/enq4/enquets")
-  (common
-   [:h1 "params test"]
-   [:p (str "params: " params)])
+  (redirect "/enquets")
+  ; (common
+  ;  [:h1 "params test"]
+  ;  [:p (str "params: " params)])
 )
 
 ;; upload はデータがないときもある。
 (defn update-enquet [id params]
   (models/update-enquet id params)
-  (redirect "/enq4/enquets")
+  (redirect "/enquets")
 )
 
 (defn delete [id]
   (models/delete-enquet id)
-  (redirect "/enq4/enquets")
+  (redirect "/enquets")
 )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; login
 (defn- control [field name text]
-  (list (label name text)
-    (field name)
-    [:br]))
-
-; (defn registration-page []
-;   (common
-;    "please register"
-;    (form-to [:post "/register"]
-;       (control text-field :id "name")
-;       (control password-field :pass "Password")
-;       (control password-field :pass1 "Retype Password")
-;       (submit-button "register"))))
+  (list (label name text) (field name) [:br]))
 
 (defn login-page []
   (common
-   "please login"
-   (form-to [:post "/login"]
-      (control text-field :name "name")
-      (control password-field :pass "Password")
-      (submit-button "login"))))
+    [:p "Please login."]
+    (form-to [:post "/login"]
+      [:table {:class "login"}
+        [:tr [:th "name"] [:td (text-field :name)]]
+        [:tr [:th "password"] [:td (password-field :pass)]]]
+        [:br]
+        [:p (submit-button "login")]
+      )))
 
