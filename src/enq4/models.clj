@@ -19,10 +19,14 @@
 (defn enquet-by-id [id]
   (first (select enq4 (where {:id id}))))
 
+(defn- suffix [s]
+  (clojure.string/replace s #"^.*(\.[\S]+)$" "$1")
+  )
+
 ;; アプロードを処理し、URL を返す。
 ;; 保存先は resources/public/{dir}
 (defn do-upload [{tempfile :tempfile filename :filename} dir id]
-  (let [dest (if id id filename)]
+  (let [dest (if id (str id (suffix filename)) filename)]
    (copy tempfile (file "resources" "public" dir dest))
    (file dir dest)
    )
