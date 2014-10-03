@@ -8,7 +8,7 @@
 
 (defentity enq4
   (entity-fields :id :name :subject :q1 :q2 :q3 :q4
-                 :original :upload :timestamp))
+                 :original :upload :timestamp :note :in_use))
 
 (defn all-enquets []
   (select enq4))
