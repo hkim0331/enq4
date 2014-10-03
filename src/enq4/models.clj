@@ -21,18 +21,19 @@
 
 ;; アプロードを処理し、URL を返す。
 ;; 保存先は resources/public/{dir}
-(defn do-upload [{tempfile :tempfile filename :filename} dir]
-  (copy tempfile (file "resources" "public" dir filename))
-  (file dir filename)
+(defn do-upload [{tempfile :tempfile filename :filename} dir id]
+  (let [dest (if id id filename)]
+   (copy tempfile (file "resources" "public" dir dest))
+   (file dir dest)
+   )
 )
 
 ;; FIXME: (empty? original) のとき例外を出さなくちゃ。
 (defn create-enquet [params]
-  (let [u (do-upload (:upload params) "o")
+  (let [u (do-upload (:upload params) "o" nil)
         p (assoc (dissoc params :upload)
             :original u
             :timestamp (now))]
-    (println p);;debug
     (insert enq4 (values p))
      ))
 
@@ -43,7 +44,7 @@
              :timestamp (now))]
       (update enq4 (set-fields p) (where {:id id})))
     (let [p (assoc (dissoc params :upload)
-             :upload (do-upload (:upload params) "u")
+             :upload (do-upload (:upload params) "u" id) ;; 2014-10-03
              :timestamp (now))]
       (update enq4 (set-fields p) (where {:id id})))
     ))
