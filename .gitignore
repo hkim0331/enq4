@@ -12,5 +12,8 @@ pom.xml
 .lein-env
 .lein-repl-history
 .nrepl-port
+/resources/public
+!/resources/public/o/.placeholder
+!/resources/public/u/.placeholder
+/resources/data
 !/resources/data/create.sql
-

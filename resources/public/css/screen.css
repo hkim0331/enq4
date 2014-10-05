@@ -50,6 +50,10 @@ th.subject {
     width: 200px;
 }
 
+th.q {
+    width:100px;
+}
+
 a {
     text-decoration: none;
 }
