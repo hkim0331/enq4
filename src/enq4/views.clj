@@ -1,6 +1,6 @@
 (ns enq4.views
   (:require [hiccup.page :refer [html5 include-css]]
-            [hiccup.form :refer 
+            [hiccup.form :refer
               [form-to label text-field file-upload password-field
                                  submit-button]]
             [hiccup.element :refer [link-to]]
@@ -34,18 +34,21 @@
   (common
    [:h1 "H27大学院時間割等修正・確認"]
    (if (session/get :user)
-    [:ol 
+    [:ol
       [:li "旧シラバスの欄からシラバスをダウンロードします。"]
-      [:li "担当の授業の新シラバスを作成し、ローカルに保存して下さい。"]
+      [:li "ダウンロードした旧シラバスから担当授業分を抜き出し、新シラバスを作成、PCに保存して下さい。"]
       [:li "編集ボタンを押し、q1, q2, q3, q4を適切に書き換え、
-        先ほど保存した新シラバスを選んだ後に update ボタンを押します。"]
+        先ほど保存した新シラバスを選び、update ボタンを押します。"]
       [:li "作業が完了したら左上の LOGOUT からログアウトして下さい。"]]
     [:p "左上の PLEASE LOGIN をクリックし、ログイン後に作業をお願いします。"])
    [:table {:class "tbl"}
     [:tr
      [:th {:class "name"} "名前"]
      [:th {:class "subject"} "科目名"]
-     [:th "q1"] [:th "q2"] [:th "q3"] [:th "q4"]
+     [:th {:class "q"} "q1"]
+     [:th {:class "q"} "q2"]
+     [:th {:class "q"} "q3"]
+     [:th {:class "q"} "q4"]
      [:th "旧シラバス<br>(全員分)"]
      [:th "修正シラバス<br>(当該科目のみ)"]
      [:th "備考"]
